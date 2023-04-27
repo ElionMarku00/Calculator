@@ -12,19 +12,6 @@ numbers = []
 def result_callback(sender, data):
     current_value = dpg.get_value("Display")
     dpg.set_value("Display", str(eval(current_value)))
-    # add the last number that is inside the temp list, since we do not run the add callback for it
-    # last_num = int(''.join(str(item) for item in temp))
-    # numbers.append(last_num)
-    # temp.clear()
-    # ###
-    # # calculate the sum of all numbers in the "numbers" list
-    # result = sum([num for num in numbers])
-    # # print the numbers list to the console for debugging purposes
-    # print(numbers)
-    # # set the value of the "Display" item to the calculated result
-    # dpg.set_value("Display", str(result))
-    # # clear the "numbers" list for the next calculation
-    # numbers.clear()
 
 
 def add_callback(sender, data):
@@ -50,6 +37,7 @@ def num_callback(sender, data):
     # update the "Display" item to show the new value
     dpg.set_value("Display", str(current_value) + str(digit))
 
+# utility to clear the screen
 def clear_callback():
     dpg.set_value("Display",'')
 # create a window with a table to hold the buttons
