@@ -1,6 +1,8 @@
 import dearpygui.dearpygui as dpg
 from button import Button
 
+from callbacks import result_callback, add_callback, sub_callback, num_callback, clear_callback, backspace_callback,type_text
+
 dpg.create_context()
 
 temp = []
@@ -11,52 +13,7 @@ numbers = []
     # first argument ids the path to the .ttf or .otf file
     # default_font = dpg.add_font("times.ttf", 20)
 
-def change_text(sender, app_data):
-   
-    print(app_data)
-    if str(chr(app_data)).isnumeric():
-        dpg.set_value("Display", f'{dpg.get_value("Display")}{chr(app_data)}')
 
-def result_callback(sender, data):
-    current_value = dpg.get_value("Display")
-    dpg.set_value("Display", str(eval(current_value)))
-    # add the last number that is inside the temp list, since we do not run the add callback for it
-    # last_num = int(''.join(str(item) for item in temp))
-    # numbers.append(last_num)
-    # temp.clear()
-    # ###
-    # # calculate the sum of all numbers in the "numbers" list
-    # result = sum([num for num in numbers])
-    # # print the numbers list to the console for debugging purposes
-    # print(numbers)
-    # # set the value of the "Display" item to the calculated result
-    # dpg.set_value("Display", str(result))
-    # # clear the "numbers" list for the next calculation
-    # numbers.clear()
-
-
-def add_callback(sender, data):
-    current_value = dpg.get_value("Display")
-    dpg.set_value("Display", str(current_value) + str("+"))
-
-
-def sub_callback(sender, data):
-    current_value = dpg.get_value("Display")
-    dpg.set_value("Display", str(current_value) + str("-"))
-
-
-def num_callback(sender, data):
-
-    digit = dpg.get_item_label(sender)
-    current_value = dpg.get_value("Display")
-    dpg.set_value("Display", str(current_value) + str(digit))
-
-
-def clear_callback():
-    dpg.set_value("Display", '')
-def backspace_callback():
-    current_value = dpg.get_value("Display")
-    dpg.set_value("Display", str(current_value)[:-1])
 
 # dpg.bind_font(default_font)
 with dpg.window(label="Tutorial", tag="Primary Window"):
@@ -95,7 +52,7 @@ with dpg.window(label="Tutorial", tag="Primary Window"):
 
 
 with dpg.handler_registry():
-    dpg.add_key_press_handler( callback=change_text)
+    dpg.add_key_press_handler( callback=type_text)
 
 
 dpg.create_viewport(title='Custom Title', width=200, height=500)
