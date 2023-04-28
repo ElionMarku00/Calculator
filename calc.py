@@ -73,6 +73,10 @@ with dpg.window(label="Tutorial"):
         with dpg.table_row():
             dpg.add_button(label="=", width=50, height=50, callback=result_callback)
 
+
+
+
+
 dpg.create_viewport(title='Custom Title', width=800, height=600)
 dpg.setup_dearpygui()
 dpg.show_viewport()

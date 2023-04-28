@@ -1,18 +1,21 @@
 import dearpygui.dearpygui as dpg
 from button import Button
 
-# create a context for the GUI
 dpg.create_context()
 
-# initialize two empty lists to store temporary and final values
 temp = []
 numbers = []
 
 # add a font registry
-with dpg.font_registry():
+# with dpg.font_registry():
     # first argument ids the path to the .ttf or .otf file
-    default_font = dpg.add_font("times.ttf", 20)
+    # default_font = dpg.add_font("times.ttf", 20)
 
+def change_text(sender, app_data):
+   
+    print(app_data)
+    if str(chr(app_data)).isnumeric():
+        dpg.set_value("Display", f'{dpg.get_value("Display")}{chr(app_data)}')
 
 def result_callback(sender, data):
     current_value = dpg.get_value("Display")
@@ -33,46 +36,35 @@ def result_callback(sender, data):
 
 
 def add_callback(sender, data):
-    # get the current value of the "Display" item
     current_value = dpg.get_value("Display")
-    # update the "Display" item to show the current value with a plus sign
     dpg.set_value("Display", str(current_value) + str("+"))
 
 
 def sub_callback(sender, data):
-    # get the current value of the "Display" item
     current_value = dpg.get_value("Display")
-    # update the "Display" item to show the current value with a plus sign
     dpg.set_value("Display", str(current_value) + str("-"))
 
 
 def num_callback(sender, data):
 
-    # get the digit of the button that was pressed
     digit = dpg.get_item_label(sender)
-    # temp.append(digit)
-    # get the current value of the "Display" item
     current_value = dpg.get_value("Display")
-    # update the "Display" item to show the new value
     dpg.set_value("Display", str(current_value) + str(digit))
 
 
 def clear_callback():
     dpg.set_value("Display", '')
 def backspace_callback():
-    # get the current value of the "Display" item
     current_value = dpg.get_value("Display")
     dpg.set_value("Display", str(current_value)[:-1])
 
-# create a window with a table to hold the buttons
-dpg.bind_font(default_font)
+# dpg.bind_font(default_font)
 with dpg.window(label="Tutorial", tag="Primary Window"):
     dpg.add_separator()
     dpg.add_text("", tag="Display")
     dpg.add_separator()
     Button('<--', backspace_callback)
     dpg.add_separator()
-    # adding trigonometry
     with dpg.group(horizontal=True):
         Button("sin", num_callback, button_type='trigo')
         Button("cos", num_callback, button_type='trigo')
@@ -87,24 +79,24 @@ with dpg.window(label="Tutorial", tag="Primary Window"):
         for i in range(0, 4):
             with dpg.table_row():
                 for j in range(0, 3):
-                    # add a button for each number, except 0 and 10
                     if i * 3 + j + 1 == 10:
-                        # add a button for addition
                         Button("+", add_callback)
                     elif i * 3 + j + 1 == 12:
-                        # add a button for subtraction
                         Button("-", sub_callback)
                     elif i * 3 + j + 1 == 11:
-                        # add a button for 0
                         Button("0", num_callback)
                     else:
-                        # add a button for the number
                         Button(str(i * 3 + j + 1), num_callback)
         with dpg.table_row():
             Button('(', num_callback)
             Button(')', num_callback)
             Button('C', clear_callback)
     dpg.add_button(label="=", width=165, height=50, callback=result_callback)
+
+
+with dpg.handler_registry():
+    dpg.add_key_press_handler( callback=change_text)
+
 
 dpg.create_viewport(title='Custom Title', width=200, height=500)
 dpg.setup_dearpygui()
