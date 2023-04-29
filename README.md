@@ -5,4 +5,5 @@ TODO:
  - [ ] implement the windows function
  - [ ] implement sin,cos,tan
  - [ ] use lamda, reduce,map somewhere :)
- - [ ] add a history section to see privious calculations(using list comprehension)
+   - [ ] we cna add factorial just for the reduce
+ - ✅ add a history section to see privious calculations(using list comprehension)
