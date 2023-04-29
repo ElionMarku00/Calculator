@@ -1,9 +1,24 @@
 import dearpygui.dearpygui as dpg
 
 
-def result_callback(sender, data):
+def result_callback(sender, data, user_data):
+
     current_value = dpg.get_value("Display")
-    dpg.set_value("Display", str(eval(current_value)))
+    res =  str(eval(current_value))
+    dpg.set_value("Display", res)
+
+    hist = user_data
+    hist.saveToHistory(current_value,res)
+    print(hist._data[0])
+    
+
+
+    
+    # store operation and result in history
+
+
+
+
     # add the last number that is inside the temp list, since we do not run the add callback for it
     # last_num = int(''.join(str(item) for item in temp))
     # numbers.append(last_num)
@@ -35,17 +50,16 @@ def num_callback(sender, data):
     current_value = dpg.get_value("Display")
     dpg.set_value("Display", str(current_value) + str(digit))
 
-
 def clear_callback():
     dpg.set_value("Display", '')
+
 def backspace_callback():
     current_value = dpg.get_value("Display")
     dpg.set_value("Display", str(current_value)[:-1])
 
-
-    
 def type_text(sender, app_data):
    
     print(app_data)
     if str(chr(app_data)).isnumeric():
         dpg.set_value("Display", f'{dpg.get_value("Display")}{chr(app_data)}')
+    
