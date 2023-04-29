@@ -22,17 +22,6 @@ def result_callback(sender, data):
     # clear the "numbers" list for the next calculation
     numbers.clear()
 
-def add_callback(sender, data):
-    # calculate the result of the current temporary value in the "temp" list
-    result = int(''.join(str(item) for item in temp))
-    # add the result to the "numbers" list
-    numbers.append(result)
-    # clear the "temp" list
-    temp.clear()
-    # get the current value of the "Display" item
-    current_value = dpg.get_value("Display")
-    # update the "Display" item to show the current value with a plus sign
-    dpg.set_value("Display", str(current_value) + str("+"))
 
 def num_callback(sender, data):
     # get the digit of the button that was pressed and add it to the "temp" list
