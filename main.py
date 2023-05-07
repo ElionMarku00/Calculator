@@ -11,6 +11,17 @@ button_list = [['(', ')', 'c', '<--'], [7, 8, 9, '%'], [4, 5, 6, "*"], [1, 2, 3,
 # first argument ids the path to the .ttf or .otf file
 # default_font = dpg.add_font("times.ttf", 20)
 
+def toggleHistory(sender, app_data, user_data):
+    
+    x, y = dpg.get_item_pos(primaryWindow)
+    width, height = dpg.get_item_rect_size(primaryWindow)
+    
+    dpg.set_item_pos(histwindow, [ x+width, y])
+    if not dpg.is_item_shown('historyWindow'):
+        dpg.show_item('historyWindow')
+    else: dpg.hide_item('historyWindow')
+
+
 dpg.create_context()
 
 # dpg.bind_font(default_font)
@@ -52,9 +63,14 @@ with dpg.window(label="Tutorial", tag="Primary Window") as primaryWindow:
     dpg.add_button(label="=", width=165, height=50, callback=result_callback, user_data=hist)
 
 with dpg.window(label="history", tag="historyWindow",show=False) as histwindow:
-#    if len(hist._data) > 0:
-    dpg.add_listbox(label="Operations",items=[str(x) for x in hist._data ], tag="List")
 
+    for i in range(len(hist._data)):
+        dpg.add_separator()
+        with dpg.table_row():
+            Button('a')
+
+
+ 
 
 with dpg.handler_registry():
     dpg.add_key_press_handler(callback=type_text)

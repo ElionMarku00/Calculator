@@ -7,14 +7,16 @@ def result_callback(sender, data, user_data):
     res =  str(eval(current_value))
     dpg.set_value("Display", res)
 
-    # store operation and result in history
     hist = user_data
     hist.saveToHistory(current_value,res)
     print(hist._data[0])
-
-    #refresh list
-    dpg.configure_item("List", items=[str(x) for x in hist._data ])
     
+
+
+    
+    # store operation and result in history
+
+
 
 
     # add the last number that is inside the temp list, since we do not run the add callback for it
