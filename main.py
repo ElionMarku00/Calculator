@@ -1,7 +1,6 @@
 from button import Button
-<<<<<<< HEAD
 from callbacks import result_callback, add_callback, sub_callback, num_callback, clear_callback, backspace_callback,type_text,factorial_callback
-
+import dearpygui.dearpygui as dpg
 from History import History
 
 dpg.create_context()
@@ -28,7 +27,6 @@ def toggleHistory(sender, app_data, user_data):
     if not dpg.is_item_shown('historyWindow'):
         dpg.show_item('historyWindow')
     else: dpg.hide_item('historyWindow')
-=======
 import dearpygui.dearpygui as dpg
 
 from callbacks import num_callback, type_text, result_callback
@@ -40,7 +38,6 @@ button_list = [['(', ')', 'c', '<--'], [7, 8, 9, '%'], [4, 5, 6, "*"], [1, 2, 3,
 # with dpg.font_registry():
 # first argument ids the path to the .ttf or .otf file
 # default_font = dpg.add_font("times.ttf", 20)
->>>>>>> d7698641b1926719f458a8bbd448d42d29298f17
 
 dpg.create_context()
 
