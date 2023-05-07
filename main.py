@@ -1,6 +1,6 @@
 import dearpygui.dearpygui as dpg
 from button import Button
-from callbacks import result_callback, add_callback, sub_callback, num_callback, clear_callback, backspace_callback,type_text
+from callbacks import result_callback, add_callback, sub_callback, num_callback, clear_callback, backspace_callback,type_text,factorial_callback
 
 from History import History
 
@@ -64,6 +64,9 @@ with dpg.window(label="Tutorial", tag="Primary Window") as primaryWindow:
             Button('(', num_callback)
             Button(')', num_callback)
             Button('C', clear_callback)
+        with dpg.table_row():
+            Button('!', factorial_callback)
+            
     dpg.add_button(label="=", width=165, height=50, callback=result_callback, user_data=hist)
 
 with dpg.window(label="history", tag="historyWindow",show=False) as histwindow:
