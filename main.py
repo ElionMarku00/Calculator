@@ -1,15 +1,22 @@
 import dearpygui.dearpygui as dpg
 from button import Button
-from callbacks import result_callback, add_callback, sub_callback, num_callback, clear_callback, backspace_callback,type_text,factorial_callback
+from History import History
+from callbacks import result_callback, add_callback, sub_callback, num_callback, clear_callback, backspace_callback,type_text
 
 
 # The list of main buttons to use
 button_list = [['(', ')', 'c', '<--'], [7, 8, 9, '%'], [4, 5, 6, "*"], [1, 2, 3, "-"], ["+/-", 0, '.', '+']]
+hist = History()
+
 
 # add a font registry
 # with dpg.font_registry():
 # first argument ids the path to the .ttf or .otf file
 # default_font = dpg.add_font("times.ttf", 20)
+
+def on_selection(sender, data):
+    selected_item = hist[data[0]]
+    print(f"Selected item: {selected_item}")
 
 def toggleHistory(sender, app_data, user_data):
     
@@ -68,8 +75,6 @@ with dpg.window(label="history", tag="historyWindow",show=False) as histwindow:
         dpg.add_separator()
         with dpg.table_row():
             Button('a')
-
-
  
 
 with dpg.handler_registry():
