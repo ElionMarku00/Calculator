@@ -6,5 +6,3 @@ TODO:
  - [ ] implement sin,cos,tan
  - [ ] use lamda, reduce,map somewhere :)
  - [ ] add a history section to see privious calculations(using list comprehension)
-
- - [ ] add some decorators to print function calls for (flex and) debug.

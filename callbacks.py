@@ -1,5 +1,4 @@
 import dearpygui.dearpygui as dpg
-from functools import reduce
 
 
 def result_callback(sender, data, user_data):
@@ -61,14 +60,4 @@ def type_text(sender, app_data):
     print(app_data)
     if str(chr(app_data)).isnumeric():
         dpg.set_value("Display", f'{dpg.get_value("Display")}{chr(app_data)}')
-
-def factorial_callback(sender, app_data,user_data):
-    current_value = dpg.get_value("Display")[:-1] #remove the !
-
-    factorial = reduce(lambda x,y: x*y,range(1,current_value+1) )
-    print('factorial:',factorial)
-    dpg.set_value("Display", str(factorial)[:-1])
-
-
-    
     
