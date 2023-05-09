@@ -1,6 +1,6 @@
 from button import Button
 import dearpygui.dearpygui as dpg
-from callbacks import num_callback, type_text, result_callback
+from callbacks import *
 
 from History import History
 
@@ -9,8 +9,8 @@ dpg.create_context()
 temp = []
 numbers = []
 hist = History()
-# The list of main buttons to use
-button_list = [['(', ')', 'c', '<--'], [7, 8, 9, '%'], [4, 5, 6, "*"], [1, 2, 3, "-"], ["+/-", 0, '.', '+']]
+# The list of main buttons to use plus the callback function if it is not the default one
+button_list = [[['('], [')'], ['c',clear_callback], ['<--',backspace_callback]], [[7], [8], [9], ['%']], [[4], [5], [6], ["*"]], [[1], [2], [3], ["-"]], [["+/-"], [0], ['.'], ['+']]]
 
 # add a font registry
 # with dpg.font_registry():
@@ -53,11 +53,15 @@ with dpg.window(label="Tutorial", tag="Primary Window") as primaryWindow:
         dpg.add_table_column()
         dpg.add_table_column()
         dpg.add_table_column()
-        for i in range(0, len(button_list)):
+        
+        for row in button_list:
             # create a row and read one of the nested list items
             with dpg.table_row():
-                [Button(x, num_callback) for x in button_list[i]]
+                # if there is a callback specified which is not the default one, use that. otherwise use the defualt one in the ___init___
+                [Button(sublist[0]) if len(sublist) == 1 else Button(sublist[0], callback_function=sublist[1]) for sublist in row]
+
     # Button('=', result_callback, user_data=hist)
+    #TODO add user data to the button class
     dpg.add_button(label="=", width=165, height=50, callback=result_callback, user_data=hist)
 
 with dpg.window(label="history", tag="historyWindow",show=False) as histwindow:
