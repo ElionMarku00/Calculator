@@ -4,6 +4,8 @@ from math import sin, cos, tan
 
 
 def result_callback(sender, data, user_data):
+    
+    print(sender,data,user_data, 'from result_callback')
     current_value = dpg.get_value("Display")
     res = str(eval(current_value))
     dpg.set_value("Display", res)
@@ -32,15 +34,20 @@ def result_callback(sender, data, user_data):
 
 
 def toggleHistory(sender, app_data, user_data):
-    # x, y = dpg.get_item_pos(primaryWindow)
-    # width, height = dpg.get_item_rect_size(primaryWindow)
-    #
-    # dpg.set_item_pos(histwindow, [x + width, y])
-    # if not dpg.is_item_shown('historyWindow'):
-    #     dpg.show_item('historyWindow')
-    # else:
-    #     dpg.hide_item('historyWindow')
-    pass
+
+    print(sender, app_data, user_data)
+
+    x, y = dpg.get_item_pos(user_data)
+    
+    width, height = dpg.get_item_rect_size(user_data)
+
+    
+    dpg.set_item_pos('historyWindow', [x + width, y])
+    if not dpg.is_item_shown('historyWindow'):
+        dpg.show_item('historyWindow')
+    else:
+        dpg.hide_item('historyWindow')
+    
 
 
 def trigo_callback(sender, data):

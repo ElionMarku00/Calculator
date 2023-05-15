@@ -13,7 +13,6 @@ button_list = [[["tan", trigo_callback], ["sin", trigo_callback], ["cos", trigo_
 
 
 class BaseWindowClass(ABC):
-    name = ''
 
     def __init__(self, name):
         self.name = name
@@ -28,7 +27,7 @@ class MainWindow(BaseWindowClass):
     def init_window(self):
         with dpg.window(label="Tutorial", tag="Primary Window") as primaryWindow:
             dpg.add_separator()
-            Button('history', toggleHistory, width=90)
+            Button('history', callback_function=toggleHistory, user_data=primaryWindow, width=90)
             dpg.add_separator()
             dpg.add_text("0", tag="Display")
 
@@ -63,4 +62,17 @@ class MainWindow(BaseWindowClass):
 
 # TODO finish implementaion
 class HistoryWindow(BaseWindowClass):
-    pass
+
+    def __init__(self, name):
+        super().__init__(name)
+        self.init_window()
+
+    def init_window(self,):
+        print(self.name,'is the name of historywindow')
+
+        hist = History()
+
+        with dpg.window(label="history", tag=self.name, show=False) as histwindow:
+        #    if len(hist._data) > 0:
+            dpg.add_listbox(label="Operations", items=[str(x) for x in hist._data ], tag="List")
+        pass
