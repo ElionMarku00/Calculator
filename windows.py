@@ -14,8 +14,9 @@ button_list = [[["tan", trigo_callback], ["sin", trigo_callback], ["cos", trigo_
 
 class BaseWindowClass(ABC):
 
-    def __init__(self, name):
+    def __init__(self, name, history = None):
         self.name = name
+        self.history = history
 
     # this abstract method contains the buttons and items we see in the window
     @abstractmethod
@@ -53,26 +54,24 @@ class MainWindow(BaseWindowClass):
             # Button('=', result_callback, user_data=hist)
             # TODO add user data to the button class
             # dpg.add_button(label="=", width=165, height=50, callback=result_callback, user_data=hist)
-            dpg.add_button(label="=", width=165, height=50, callback=result_callback)
+            dpg.add_button(label="=", width=165, height=50, user_data=self.history, callback=result_callback)
 
-    def __init__(self, name):
-        super().__init__(name)
+    def __init__(self, name, history):
+        super().__init__(name, history)
         self.init_window()
 
 
 # TODO finish implementaion
 class HistoryWindow(BaseWindowClass):
 
-    def __init__(self, name):
-        super().__init__(name)
+    def __init__(self, name, history = None):
+        super().__init__(name, history)
         self.init_window()
 
     def init_window(self,):
         print(self.name,'is the name of historywindow')
 
-        hist = History()
-
         with dpg.window(label="history", tag=self.name, show=False) as histwindow:
         #    if len(hist._data) > 0:
-            dpg.add_listbox(label="Operations", items=[str(x) for x in hist._data ], tag="List")
+            dpg.add_listbox(label="Operations", items=[str(x) for x in self.history._data ], tag="List")
         pass

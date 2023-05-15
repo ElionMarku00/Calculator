@@ -9,7 +9,7 @@ if __name__ == '__main__':
 
     dpg.create_context()
 
-    # hist = History()
+    hist = History()
 
 
     # add a font registry
@@ -18,8 +18,9 @@ if __name__ == '__main__':
     # default_font = dpg.add_font("times.ttf", 20)
 
 
-    main_window = MainWindow('Tutorial')
-    history_window = HistoryWindow('historyWindow')
+
+    main_window = MainWindow('Tutorial', hist)
+    history_window = HistoryWindow('historyWindow', hist)
 
     # def on_selection(sender, data):
     #     selected_item = hist[data[0]]
