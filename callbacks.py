@@ -5,7 +5,6 @@ from math import sin, cos, tan
 
 def result_callback(sender, data, user_data):
     
-    print(sender,data,user_data, 'from result_callback')
     current_value = dpg.get_value("Display")
     res = str(eval(current_value))
     dpg.set_value("Display", res)
@@ -13,7 +12,6 @@ def result_callback(sender, data, user_data):
     # store operation and result in history
     hist = user_data
     hist.saveToHistory(current_value, res)
-    print(hist._data[0])
 
     # refresh list
     dpg.configure_item("List", items=[str(x) for x in hist._data])
@@ -35,14 +33,14 @@ def result_callback(sender, data, user_data):
 
 def toggleHistory(sender, app_data, user_data):
 
-    print(sender, app_data, user_data)
 
+    # place history window next to main window
     x, y = dpg.get_item_pos(user_data)
-    
     width, height = dpg.get_item_rect_size(user_data)
-
-    
     dpg.set_item_pos('historyWindow', [x + width, y])
+
+
+    #add or hide historyWindow on buttonClick
     if not dpg.is_item_shown('historyWindow'):
         dpg.show_item('historyWindow')
     else:

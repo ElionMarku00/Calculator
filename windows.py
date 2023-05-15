@@ -51,17 +51,16 @@ class MainWindow(BaseWindowClass):
                          for
                          sublist in row]
 
-            # Button('=', result_callback, user_data=hist)
+            Button('=', callback_function=result_callback, width=165, height=50, user_data=self.history)
             # TODO add user data to the button class
-            # dpg.add_button(label="=", width=165, height=50, callback=result_callback, user_data=hist)
-            dpg.add_button(label="=", width=165, height=50, user_data=self.history, callback=result_callback)
+            # dpg.add_button(label="=", width=165, height=50, callback=result_callback, user_data=self.history)
+            # dpg.add_button(label="=", width=165, height=50, user_data=self.history, callback=result_callback)
 
     def __init__(self, name, history):
         super().__init__(name, history)
         self.init_window()
 
 
-# TODO finish implementaion
 class HistoryWindow(BaseWindowClass):
 
     def __init__(self, name, history = None):
@@ -74,4 +73,3 @@ class HistoryWindow(BaseWindowClass):
         with dpg.window(label="history", tag=self.name, show=False) as histwindow:
         #    if len(hist._data) > 0:
             dpg.add_listbox(label="Operations", items=[str(x) for x in self.history._data ], tag="List")
-        pass

@@ -1,4 +1,3 @@
-from button import Button
 import dearpygui.dearpygui as dpg
 from callbacks import *
 from windows import *
@@ -9,15 +8,13 @@ if __name__ == '__main__':
 
     dpg.create_context()
 
+    # hist is initialized on main.py so both mainwindow and historywindow get the same object. 
     hist = History()
-
 
     # add a font registry
     # with dpg.font_registry():
     # first argument ids the path to the .ttf or .otf file
     # default_font = dpg.add_font("times.ttf", 20)
-
-
 
     main_window = MainWindow('Tutorial', hist)
     history_window = HistoryWindow('historyWindow', hist)
