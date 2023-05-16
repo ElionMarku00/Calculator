@@ -8,13 +8,15 @@ from abc import ABC, abstractmethod
 
 # The list of main buttons to use plus the callback function if it is not the default one
 button_list = [[["tan", trigo_callback], ["sin", trigo_callback], ["cos", trigo_callback], ["cot", trigo_callback]],
-               [['('], [')'], ['c', clear_callback], ['<--', backspace_callback]], [[7], [8], [9], ['%']],
-               [[4], [5], [6], ["*"]], [[1], [2], [3], ["-"]], [["+/-"], [0], ['.'], ['+']]]
+               [['('], [')'], ['c', clear_callback], ['<--', backspace_callback]],
+               [[7], [8], [9], ['/']],
+               [[4], [5], [6], ["*", operator_callback]], [[1], [2], [3], ["-", operator_callback]],
+               [["+/-", operator_callback], [0], ['.', operator_callback], ['+', operator_callback]]]
 
 
 class BaseWindowClass(ABC):
 
-    def __init__(self, name, history = None):
+    def __init__(self, name, history=None):
         self.name = name
         self.history = history
 
@@ -63,13 +65,13 @@ class MainWindow(BaseWindowClass):
 
 class HistoryWindow(BaseWindowClass):
 
-    def __init__(self, name, history = None):
+    def __init__(self, name, history=None):
         super().__init__(name, history)
         self.init_window()
 
-    def init_window(self,):
-        print(self.name,'is the name of historywindow')
+    def init_window(self, ):
+        print(self.name, 'is the name of historywindow')
 
         with dpg.window(label="history", tag=self.name, show=False) as histwindow:
-        #    if len(hist._data) > 0:
-            dpg.add_listbox(label="Operations", items=[str(x) for x in self.history._data ], tag="List")
+            #    if len(hist._data) > 0:
+            dpg.add_listbox(label="Operations", items=[str(x) for x in self.history._data], tag="List")
