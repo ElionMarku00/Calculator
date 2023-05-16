@@ -19,6 +19,7 @@ class BaseWindowClass(ABC):
     def __init__(self, name, history=None):
         self.name = name
         self.history = history
+        
 
     # this abstract method contains the buttons and items we see in the window
     @abstractmethod
@@ -75,3 +76,33 @@ class HistoryWindow(BaseWindowClass):
         with dpg.window(label="history", tag=self.name, show=False) as histwindow:
             #    if len(hist._data) > 0:
             dpg.add_listbox(label="Operations", items=[str(x) for x in self.history._data], tag="List")
+
+
+
+def setup_UI():
+    
+    hist = History()
+
+   
+
+    dpg.create_context()
+        #  with dpg.create_theme(dpg.mvThemeCol_WindowBg, (255, 255, 255, 255)):
+
+    main_window = MainWindow('Tutorial', hist)
+    history_window = HistoryWindow('historyWindow', hist)
+
+    dpg.create_viewport(title="Dear PyGui Example", width=800, height=600)
+    dpg.setup_dearpygui()
+
+    with dpg.handler_registry():
+        dpg.add_key_press_handler(callback=type_text)
+
+
+    dpg.set_primary_window("Primary Window", True)
+
+    dpg.show_viewport()
+    dpg.start_dearpygui()
+    dpg.destroy_context()
+
+
+setup_UI()
