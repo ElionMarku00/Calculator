@@ -13,21 +13,19 @@ button_list = [[["tan", trigo_callback], ["sin", trigo_callback], ["cos", trigo_
                [[4], [5], [6], ["*", operator_callback]], [[1], [2], [3], ["-", operator_callback]],
                [["+/-", operator_callback], [0], ['.', operator_callback], ['+', operator_callback]]]
 
-
 class BaseWindowClass(ABC):
 
     def __init__(self, name, history=None):
         self.name = name
         self.history = history
         
-
     # this abstract method contains the buttons and items we see in the window
     @abstractmethod
     def init_window(self):
         pass
 
-
 class MainWindow(BaseWindowClass):
+
     def init_window(self):
         with dpg.window(label="Tutorial", tag="Primary Window") as primaryWindow:
             dpg.add_separator()
@@ -55,14 +53,10 @@ class MainWindow(BaseWindowClass):
                          sublist in row]
 
             Button('=', callback_function=result_callback, width=165, height=50, user_data=self.history)
-            # TODO add user data to the button class
-            # dpg.add_button(label="=", width=165, height=50, callback=result_callback, user_data=self.history)
-            # dpg.add_button(label="=", width=165, height=50, user_data=self.history, callback=result_callback)
 
     def __init__(self, name, history):
         super().__init__(name, history)
         self.init_window()
-
 
 class HistoryWindow(BaseWindowClass):
 
@@ -77,23 +71,22 @@ class HistoryWindow(BaseWindowClass):
             #    if len(hist._data) > 0:
             dpg.add_listbox(label="Operations", items=[str(x) for x in self.history._data], tag="List")
 
-
-
 def setup_UI():
     
     hist = History()
 
+    #what's below this line will be displayed
     dpg.create_context()
 
     main_window = MainWindow('Tutorial', hist)
     history_window = HistoryWindow('historyWindow', hist)
 
-    dpg.create_viewport(title="Dear PyGui Example", width=800, height=600)
+    dpg.create_viewport(title="Advanced Programming Calculator Project", width=800, height=600)
     dpg.setup_dearpygui()
 
+    #keypress handler 
     with dpg.handler_registry():
         dpg.add_key_press_handler(callback=type_text)
-
 
     dpg.set_primary_window("Primary Window", True)
 
