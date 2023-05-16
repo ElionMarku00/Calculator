@@ -2,13 +2,19 @@ import dearpygui.dearpygui as dpg
 import math
 from math import sin, cos, tan
 
+# checks if the last button that was clicked was the result button
+result_calculated = False
+
 
 def result_callback(sender, data, user_data):
-    
     current_value = dpg.get_value("Display")
-    res = str(eval(current_value))
-    dpg.set_value("Display", res)
-
+    try:
+        res = str(eval(current_value))
+        dpg.set_value("Display", res)
+    except ZeroDivisionError:  # catching divided by zero
+        dpg.set_value("Display", 'Cannot divide by zero')
+    global result_calculated
+    result_calculated = True
     # store operation and result in history
     hist = user_data
     hist.saveToHistory(current_value, res)
@@ -16,36 +22,18 @@ def result_callback(sender, data, user_data):
     # refresh list
     dpg.configure_item("List", items=[str(x) for x in hist._data])
 
-    # add the last number that is inside the temp list, since we do not run the add callback for it
-    # last_num = int(''.join(str(item) for item in temp))
-    # numbers.append(last_num)
-    # temp.clear()
-    # ###
-    # # calculate the sum of all numbers in the "numbers" list
-    # result = sum([num for num in numbers])
-    # # print the numbers list to the console for debugging purposes
-    # print(numbers)
-    # # set the value of the "Display" item to the calculated result
-    # dpg.set_value("Display", str(result))
-    # # clear the "numbers" list for the next calculation
-    # numbers.clear()
-
 
 def toggleHistory(sender, app_data, user_data):
-
-
     # place history window next to main window
     x, y = dpg.get_item_pos(user_data)
     width, height = dpg.get_item_rect_size(user_data)
     dpg.set_item_pos('historyWindow', [x + width, y])
 
-
-    #add or hide historyWindow on buttonClick
+    # add or hide historyWindow on buttonClick
     if not dpg.is_item_shown('historyWindow'):
         dpg.show_item('historyWindow')
     else:
         dpg.hide_item('historyWindow')
-    
 
 
 def trigo_callback(sender, data):
@@ -55,9 +43,25 @@ def trigo_callback(sender, data):
 
 
 def num_callback(sender, data):
+    current_value = dpg.get_value("Display")
+    global result_calculated
+    # if the result button was clicked or the first number on the screen is zero, clear the screen
+    if result_calculated or current_value[0] == '0':
+        dpg.set_value("Display", '')
+        result_calculated = False
     digit = dpg.get_item_label(sender)
     current_value = dpg.get_value("Display")
     dpg.set_value("Display", str(current_value) + str(digit))
+
+
+def operator_callback(sender, data):
+    digit = dpg.get_item_label(sender)
+    current_value = dpg.get_value("Display")
+    # if the last item on display is an operator, replace it with the new one
+    if current_value[-1] in ['+', '-', '*', '/']:
+        dpg.set_value("Display", str(current_value[:-1]) + str(digit))
+    else:
+        dpg.set_value("Display", str(current_value) + str(digit))
 
 
 def clear_callback():
