@@ -83,10 +83,7 @@ def setup_UI():
     
     hist = History()
 
-   
-
     dpg.create_context()
-        #  with dpg.create_theme(dpg.mvThemeCol_WindowBg, (255, 255, 255, 255)):
 
     main_window = MainWindow('Tutorial', hist)
     history_window = HistoryWindow('historyWindow', hist)
@@ -103,6 +100,3 @@ def setup_UI():
     dpg.show_viewport()
     dpg.start_dearpygui()
     dpg.destroy_context()
-
-
-setup_UI()
