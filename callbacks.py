@@ -2,6 +2,8 @@ import dearpygui.dearpygui as dpg
 import math
 from math import sin, cos, tan
 
+# This file contains all the callback method used when clicking a button
+
 # checks if the last button that was clicked was the result button
 result_calculated = False
 
@@ -42,11 +44,7 @@ def toggleHistory(sender, app_data, user_data):
         dpg.hide_item('historyWindow')
 
 
-def trigo_callback(sender, data):
-    trigonometry_function = dpg.get_item_label(sender)
-    current_display_value = dpg.get_value("Display")
-    dpg.set_value("Display", str(trigonometry_function) + '(' + str(current_display_value) + ')')
-
+# used in trigonometry, square root and power of two
 def advance_op_callback(sender, data):
     global result_calculated
     result_calculated = False
@@ -55,7 +53,6 @@ def advance_op_callback(sender, data):
     dpg.set_value("Display", str(trigonometry_function) + '(' + str(current_display_value) + ')')
 
 
-# used for numpad
 def num_callback(sender, data):
     current_value = dpg.get_value("Display")
     global result_calculated
@@ -72,6 +69,7 @@ def num_callback(sender, data):
 def operator_callback(sender, data):
     global result_calculated
     result_calculated = False
+
     digit = dpg.get_item_label(sender)
     current_value = dpg.get_value("Display")
     # if the last item on display is an operator, replace it with the new one. used to prevent adding extra operator
@@ -86,8 +84,10 @@ def clear_callback():
     dpg.set_value("Display", '0')
 
 
+# removes one character from the display
 def backspace_callback():
     current_value = dpg.get_value("Display")
+
     if len(current_value) == 1:
         dpg.set_value("Display", '0')
     else:

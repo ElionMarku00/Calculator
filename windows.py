@@ -1,4 +1,4 @@
-# This class holds the implementations of windows we see, like main and history
+# This File holds the implementations of windows we see, like main and history
 from button import Button
 import dearpygui.dearpygui as dpg
 from callbacks import *
@@ -14,19 +14,20 @@ button_list = [[["tan", advance_op_callback], ["sin", advance_op_callback], ["co
                [[4], [5], [6], ["*", operator_callback]], [[1], [2], [3], ["-", operator_callback]],
                [["+/-", operator_callback], [0], ['.', operator_callback], ['+', operator_callback]]]
 
+
 class BaseWindowClass(ABC):
 
     def __init__(self, name, history=None):
         self.name = name
         self.history = history
-        
+
     # this abstract method contains the buttons and items we see in the window
     @abstractmethod
     def init_window(self):
         pass
 
-class MainWindow(BaseWindowClass):
 
+class MainWindow(BaseWindowClass):
     def init_window(self):
         with dpg.window(label="Tutorial", tag="Primary Window", height=800, width=300) as primaryWindow:
             dpg.add_separator()
@@ -57,9 +58,11 @@ class MainWindow(BaseWindowClass):
             dpg.add_separator()
             history_window = HistoryWindow('historyWindow', history=self.history, show=True,pos=[0,500],width=400 )
 
+
     def __init__(self, name, history):
         super().__init__(name, history)
         self.init_window()
+
 
 class HistoryWindow(BaseWindowClass):
 
