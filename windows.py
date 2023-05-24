@@ -1,4 +1,4 @@
-# This File holds the implementations of windows we see, like main and history
+# This class holds the implementations of windows we see, like main and history
 from button import Button
 import dearpygui.dearpygui as dpg
 from callbacks import *
@@ -14,24 +14,23 @@ button_list = [[["tan", advance_op_callback], ["sin", advance_op_callback], ["co
                [[4], [5], [6], ["*", operator_callback]], [[1], [2], [3], ["-", operator_callback]],
                [["+/-", operator_callback], [0], ['.', operator_callback], ['+', operator_callback]]]
 
-
 class BaseWindowClass(ABC):
 
     def __init__(self, name, history=None):
         self.name = name
         self.history = history
-
+        
     # this abstract method contains the buttons and items we see in the window
     @abstractmethod
     def init_window(self):
         pass
 
-
 class MainWindow(BaseWindowClass):
+
     def init_window(self):
-        with dpg.window(label="Tutorial", tag="Primary Window") as primaryWindow:
+        with dpg.window(label="Tutorial", tag="Primary Window", height=800, width=300) as primaryWindow:
             dpg.add_separator()
-            Button('history', callback_function=toggleHistory, user_data=primaryWindow, width=90)
+            # Button('history', callback_function=toggleHistory, user_data=primaryWindow, width=90)
             dpg.add_separator()
             dpg.add_text("0", tag="Display")
 
@@ -55,37 +54,37 @@ class MainWindow(BaseWindowClass):
                          sublist in row]
 
             Button('=', callback_function=result_callback, width=165, height=50, user_data=self.history)
-
+            dpg.add_separator()
+            history_window = HistoryWindow('historyWindow', history=self.history, show=True,pos=[0,500],width=400 )
 
     def __init__(self, name, history):
         super().__init__(name, history)
         self.init_window()
 
-
 class HistoryWindow(BaseWindowClass):
 
-    def __init__(self, name, history=None):
+    def __init__(self, name, history=None, **args ):
         super().__init__(name, history)
-        self.init_window()
+        self.init_window(**args )
 
-    def init_window(self, ):
+    def init_window(self, **args ):
         print(self.name, 'is the name of historywindow')
 
-        with dpg.window(label="history", tag=self.name, show=False) as histwindow:
+        with dpg.window(label="history", tag=self.name,  **args ) as histwindow:
             #    if len(hist._data) > 0:
             dpg.add_listbox(label="Operations", items=[str(x) for x in self.history._data], tag="List")
 
 def setup_UI():
-
+    
     hist = History()
 
     #what's below this line will be displayed
     dpg.create_context()
 
     main_window = MainWindow('Tutorial', hist)
-    history_window = HistoryWindow('historyWindow', hist)
+    # history_window = HistoryWindow('historyWindow', hist)
 
-    dpg.create_viewport(title="Advanced Programming Calculator Project", width=800, height=600)
+    dpg.create_viewport(title="Advanced Programming Calculator Project", width=500, height=700)
     dpg.setup_dearpygui()
 
     #keypress handler 
@@ -95,3 +94,5 @@ def setup_UI():
     dpg.set_primary_window("Primary Window", True)
 
     dpg.show_viewport()
+    dpg.start_dearpygui()
+    dpg.destroy_context()

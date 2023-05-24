@@ -3,9 +3,6 @@ from callbacks import *
 from windows import setup_UI
 from History import History
 
-
-#TODO: adjust history window to be visible 
-#
 if __name__ == '__main__':
 
     setup_UI()
