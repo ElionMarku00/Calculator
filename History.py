@@ -5,6 +5,7 @@ class History:
     def __init__(self) -> None:
 
         self._data = []
+        self._displayData = []
 
     def clear_history(self) -> None:
         self._data.clear()
@@ -16,8 +17,20 @@ class History:
     filter history by operation and return it as list
     '''
     def getHistoryByOperation(self, operation:str) -> list:
-        return list(filter(lambda op: op.operation.contains(operation),self._data))
+        print('history data', self._data, operation)
+        print('display data',self._displayData)
+        self._displayData =  list(filter(lambda op: operation in op.operation, self._data))
+        
+        # return self._displayData
+        return list(map(lambda x: str(x), self._displayData))
     
+    '''
+    data displays fully. no filter. 
+    '''
+    def clearSearch(self,):
+        self._displayData = self._data
+        return self._displayData
+
     '''
     save object of type Operation to history
     '''

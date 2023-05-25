@@ -28,21 +28,19 @@ def result_callback(sender, data, user_data):
     # refresh list
     dpg.configure_item("List", items=[str(x) for x in hist._data])
 
+# def toggleHistory(sender, app_data, user_data):
+#     # place history window next to main window
+#     x, y = dpg.get_item_pos(user_data)
+#     width, height = dpg.get_item_rect_size(user_data)
+#     dpg.set_item_pos('historyWindow', [x + width, y])
 
-def toggleHistory(sender, app_data, user_data):
-    # place history window next to main window
-    x, y = dpg.get_item_pos(user_data)
-    width, height = dpg.get_item_rect_size(user_data)
-    dpg.set_item_pos('historyWindow', [x + width, y])
-
-    # add or hide historyWindow on buttonClick
-    if not dpg.is_item_shown('historyWindow'):
-        dpg.show_item('historyWindow')
-        window_size = dpg.get_item_rect_size("Primary Window")
-        dpg.set_viewport_size(width=window_size[0], height=window_size[1])
-    else:
-        dpg.hide_item('historyWindow')
-
+#     # add or hide historyWindow on buttonClick
+#     if not dpg.is_item_shown('historyWindow'):
+#         dpg.show_item('historyWindow')
+#         window_size = dpg.get_item_rect_size("Primary Window")
+#         dpg.set_viewport_size(width=window_size[0], height=window_size[1])
+#     else:
+#         dpg.hide_item('historyWindow')
 
 # used in trigonometry, square root and power of two
 def advance_op_callback(sender, data):
@@ -51,7 +49,6 @@ def advance_op_callback(sender, data):
     trigonometry_function = dpg.get_item_label(sender)
     current_display_value = dpg.get_value("Display")
     dpg.set_value("Display", str(trigonometry_function) + '(' + str(current_display_value) + ')')
-
 
 def num_callback(sender, data):
     current_value = dpg.get_value("Display")

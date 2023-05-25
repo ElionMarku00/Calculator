@@ -14,7 +14,6 @@ button_list = [[["tan", advance_op_callback], ["sin", advance_op_callback], ["co
                [[4], [5], [6], ["*", operator_callback]], [[1], [2], [3], ["-", operator_callback]],
                [["+/-", operator_callback], [0], ['.', operator_callback], ['+', operator_callback]]]
 
-
 class BaseWindowClass(ABC):
 
     def __init__(self, name, history=None):
@@ -56,7 +55,7 @@ class MainWindow(BaseWindowClass):
 
             Button('=', callback_function=result_callback, width=165, height=50, user_data=self.history)
             dpg.add_separator()
-            history_window = HistoryWindow('historyWindow', history=self.history, show=True,pos=[0,500],width=400 )
+            history_window = HistoryWindow('historyWindow', history=self.history, show=True, pos=[0,500], width=400 )
 
 
     def __init__(self, name, history):
@@ -64,18 +63,38 @@ class MainWindow(BaseWindowClass):
         self.init_window()
 
 
+'''
+Class representing The history window GUI
+'''
+
 class HistoryWindow(BaseWindowClass):
 
     def __init__(self, name, history=None, **args ):
         super().__init__(name, history)
         self.init_window(**args )
 
+    def inputChangedCallback(self, sender, app_data):
+        text = dpg.get_value('searchBar')
+        displayData = []
+
+        if text is None or text == '': displayData = self.history.clearSearch()
+        else: displayData = self.history.getHistoryByOperation(text)
+        dpg.configure_item("List", items=displayData )
+
+
     def init_window(self, **args ):
         print(self.name, 'is the name of historywindow')
 
         with dpg.window(label="history", tag=self.name,  **args ) as histwindow:
+            dpg.add_spacer()
+            dpg.add_separator()
+            
+            dpg.add_input_text(tag='searchBar', callback=self.inputChangedCallback)    
+            
+            dpg.add_separator()
+            
             #    if len(hist._data) > 0:
-            dpg.add_listbox(label="Operations", items=[str(x) for x in self.history._data], tag="List")
+            dpg.add_listbox(label="Operations", items=[str(x) for x in self.history._displayData], tag="List")
 
 def setup_UI():
     
@@ -91,8 +110,8 @@ def setup_UI():
     dpg.setup_dearpygui()
 
     #keypress handler 
-    with dpg.handler_registry():
-        dpg.add_key_press_handler(callback=type_text)
+    # with dpg.handler_registry():
+    #     dpg.add_key_press_handler(callback=type_text, )
 
     dpg.set_primary_window("Primary Window", True)
 

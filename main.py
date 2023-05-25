@@ -16,5 +16,4 @@ if __name__ == '__main__':
     #     selected_item = hist[data[0]]
     #     print(f"Selected item: {selected_item}")
 
-
     # dpg.bind_font(default_font)
