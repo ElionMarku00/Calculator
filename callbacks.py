@@ -11,28 +11,36 @@ result_calculated = False
 # calculates the value showed on the display when the "=" button is clicked
 def result_callback(sender, data, user_data):
     # defines new functions that are not supported by default
-    local_vars = {"abslt": lambda x: x if x >= 0 else -x, "pot": lambda x: x ** 2, "sqrt": lambda x: x ** 0.5,
-                  "!": lambda x: factorial(x)
-             
+    local_vars = {"abslt": lambda x: x if x >= 0 else -x, "pot": lambda x: x ** 2, "sqrt": lambda x: x ** 0.5, 
+                  "factorial": lambda x: math.factorial(x), "cot": lambda x: 1 / tan(x), "%": lambda x: x / 100  
                   }
     global_vars = {}
     current_value = dpg.get_value("Display")
     try:
         res = str(eval(current_value, global_vars, local_vars))
         dpg.set_value("Display", res)
+
+            # store operation and result in history
+        hist = user_data
+        hist.saveToHistory(current_value, res)
+            # refresh list
+        dpg.configure_item("List", items=[str(x) for x in hist._data])
+
     except ZeroDivisionError:  # catching divided by zero
         dpg.set_value("Display", 'Cannot divide by zero')
     except SyntaxError: # for cases such as unclosed parentheses or eval failing.
          dpg.set_value("Display", 'Format Error, press c to clear')
+    except Exception as e:
+        print(e)
+        
     # change the boolean
     global result_calculated
     result_calculated = True
-    # store operation and result in history
-    hist = user_data
-    hist.saveToHistory(current_value, res)
+    # # store operation and result in history
+    # hist = user_data
+    # hist.saveToHistory(current_value, res)
 
-    # refresh list
-    dpg.configure_item("List", items=[str(x) for x in hist._data])
+
 
 
 '''
@@ -72,14 +80,14 @@ new, now we can type stuff like cos(0) + sin(0)
 def advance_op_callback(sender, data):
     global result_calculated
     result_calculated = False
-    trigonometry_function = dpg.get_item_label(sender)
+    trigonometry_function = dpg.get_item_label(sender) if dpg.get_item_label(sender) is not '!' else 'factorial'
     current_display_value = dpg.get_value("Display")
     
     pattern = r"([-+*/])"
     where_to_add_trig = re.split(pattern, current_display_value )
 
     oldInput = reduce( lambda x, y: x + y ,where_to_add_trig[:len(where_to_add_trig) - 1],"")
-    print('oldInput',oldInput)
+
     dpg.set_value("Display", oldInput + str(trigonometry_function) + '(' + str(where_to_add_trig[-1]) + ')')
 
 def num_callback(sender, data):
