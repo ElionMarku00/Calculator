@@ -1,11 +1,10 @@
 import dearpygui.dearpygui as dpg
 import math
-from math import sin, cos, tan
+from math import sin, cos, tan, factorial, log10, log2
 import re
 from functools import reduce
 
 # This file contains all the callback method used when clicking a button
-
 # checks if the last button that was clicked was the result button
 result_calculated = False
 
@@ -13,7 +12,8 @@ result_calculated = False
 def result_callback(sender, data, user_data):
     # defines new functions that are not supported by default
     local_vars = {"abslt": lambda x: x if x >= 0 else -x, "pot": lambda x: x ** 2, "sqrt": lambda x: x ** 0.5,
-                  "cos":lambda x: cos(x), "sin": lambda x:sin(x), "tan":lambda x: tan(x)
+                  "!": lambda x: factorial(x)
+             
                   }
     global_vars = {}
     current_value = dpg.get_value("Display")
@@ -70,11 +70,7 @@ def advance_op_callback(sender, data):
     
     pattern = r"([-+*/])"
     where_to_add_trig = re.split(pattern, current_display_value )
-    print('where_to_add_trig', where_to_add_trig)
 
-    # dpg.set_value("Display", str(trigonometry_function) + '(' + str(current_display_value) + ')')
-
-    # oldInput = str.join(where_to_add_trig[:len(where_to_add_trig) - 1]) # 
     oldInput = reduce( lambda x, y: x + y ,where_to_add_trig[:len(where_to_add_trig) - 1],"")
     print('oldInput',oldInput)
     dpg.set_value("Display", oldInput + str(trigonometry_function) + '(' + str(where_to_add_trig[-1]) + ')')
@@ -122,6 +118,6 @@ def backspace_callback():
 
 
 def type_text(sender, app_data):
-    print(app_data)
+    print('type_text',sender,app_data)
     if str(chr(app_data)).isnumeric():
         dpg.set_value("Display", f'{dpg.get_value("Display")}{chr(app_data)}')

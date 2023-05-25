@@ -28,7 +28,7 @@ class BaseWindowClass(ABC):
 
 class MainWindow(BaseWindowClass):
     def init_window(self):
-        with dpg.window(label="Tutorial", tag="Primary Window", height=800, width=300) as primaryWindow:
+        with dpg.window( tag="Primary Window", height=800, width=300) as primaryWindow:
             dpg.add_separator()
             # Button('history', callback_function=toggleHistory, user_data=primaryWindow, width=90)
             dpg.add_separator()
@@ -57,15 +57,19 @@ class MainWindow(BaseWindowClass):
             dpg.add_separator()
             history_window = HistoryWindow('historyWindow', history=self.history, pos=[0,500], width=dpg.get_item_width(primaryWindow) )
 
+                #keypress handler 
+            # with dpg.handler_registry(tag='pressHandler') as keyPress:
+            #     dpg.add_key_press_handler(callback=type_text,)
+
+            # dpg.bind_item_handler_registry("Primary Window", "pressHandler")
+
     def __init__(self, name, history):
         super().__init__(name, history)
         self.init_window()
 
-
 '''
 Class representing The history window GUI
 '''
-
 class HistoryWindow(BaseWindowClass):
 
     def __init__(self, name, history=None, **args ):
@@ -110,10 +114,6 @@ def setup_UI():
 
     dpg.create_viewport(title="Advanced Programming Calculator Project", width=500, height=700)
     dpg.setup_dearpygui()
-
-    #keypress handler 
-    # with dpg.handler_registry():
-    #     dpg.add_key_press_handler(callback=type_text, )
 
     dpg.set_primary_window("Primary Window", True)
 
