@@ -37,12 +37,6 @@ def result_callback(sender, data, user_data):
     # change the boolean
     global result_calculated
     result_calculated = True
-    # # store operation and result in history
-    # hist = user_data
-    # hist.saveToHistory(current_value, res)
-
-
-
 
 '''
 deprecated. 
@@ -64,16 +58,6 @@ def toggleHistory(sender, app_data, user_data):
 
 # used in trigonometry, square root and power of two
 
-'''
-old
-'''
-# def advance_op_callback(sender, data):
-#     global result_calculated
-#     result_calculated = False
-#     trigonometry_function = dpg.get_item_label(sender)
-#     current_display_value = dpg.get_value("Display")
-    
-#     dpg.set_value("Display", str(trigonometry_function) + '(' + str(current_display_value) + ')')
 
 '''
 new, now we can type stuff like cos(0) + sin(0)
