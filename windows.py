@@ -25,7 +25,6 @@ class BaseWindowClass(ABC):
     def init_window(self):
         pass
 
-
 class MainWindow(BaseWindowClass):
     def init_window(self):
         with dpg.window( tag="Primary Window", height=800, width=300) as primaryWindow:

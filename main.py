@@ -1,7 +1,5 @@
-import dearpygui.dearpygui as dpg
-from callbacks import *
+
 from windows import setup_UI
-from History import History
 
 
 #TODO fix % and +/- and cot  button

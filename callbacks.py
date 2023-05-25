@@ -22,6 +22,8 @@ def result_callback(sender, data, user_data):
         dpg.set_value("Display", res)
     except ZeroDivisionError:  # catching divided by zero
         dpg.set_value("Display", 'Cannot divide by zero')
+    except SyntaxError:
+         dpg.set_value("Display", 'Format Error, press c to clear')
     # change the boolean
     global result_calculated
     result_calculated = True
