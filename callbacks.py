@@ -22,7 +22,7 @@ def result_callback(sender, data, user_data):
         dpg.set_value("Display", res)
     except ZeroDivisionError:  # catching divided by zero
         dpg.set_value("Display", 'Cannot divide by zero')
-    except SyntaxError:
+    except SyntaxError: # for cases such as unclosed parentheses or eval failing.
          dpg.set_value("Display", 'Format Error, press c to clear')
     # change the boolean
     global result_calculated
@@ -34,19 +34,24 @@ def result_callback(sender, data, user_data):
     # refresh list
     dpg.configure_item("List", items=[str(x) for x in hist._data])
 
-# def toggleHistory(sender, app_data, user_data):
-#     # place history window next to main window
-#     x, y = dpg.get_item_pos(user_data)
-#     width, height = dpg.get_item_rect_size(user_data)
-#     dpg.set_item_pos('historyWindow', [x + width, y])
 
-#     # add or hide historyWindow on buttonClick
-#     if not dpg.is_item_shown('historyWindow'):
-#         dpg.show_item('historyWindow')
-#         window_size = dpg.get_item_rect_size("Primary Window")
-#         dpg.set_viewport_size(width=window_size[0], height=window_size[1])
-#     else:
-#         dpg.hide_item('historyWindow')
+'''
+deprecated. 
+We used to have a button to open and close history window. Now it's integrated in the platform. 
+'''
+def toggleHistory(sender, app_data, user_data):
+    # place history window next to main window
+    x, y = dpg.get_item_pos(user_data)
+    width, height = dpg.get_item_rect_size(user_data)
+    dpg.set_item_pos('historyWindow', [x + width, y])
+
+    # add or hide historyWindow on buttonClick
+    if not dpg.is_item_shown('historyWindow'):
+        dpg.show_item('historyWindow')
+        window_size = dpg.get_item_rect_size("Primary Window")
+        dpg.set_viewport_size(width=window_size[0], height=window_size[1])
+    else:
+        dpg.hide_item('historyWindow')
 
 # used in trigonometry, square root and power of two
 
@@ -81,7 +86,9 @@ def num_callback(sender, data):
     current_value = dpg.get_value("Display")
     global result_calculated
     # if the result button was clicked or the first number on the screen is zero, clear the screen
-    if result_calculated or current_value[0] == '0':
+
+    if result_calculated or (current_value[0] == '0' and len(current_value)==1):
+
         dpg.set_value("Display", '')
         # now that the result button is not the last button clicked, change the bool
         result_calculated = False
@@ -106,8 +113,6 @@ def operator_callback(sender, data):
 # reset the diplay to default value
 def clear_callback():
     dpg.set_value("Display", '0')
-
-
 
 # removes one character from the display
 def backspace_callback():
