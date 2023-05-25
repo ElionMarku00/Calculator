@@ -53,10 +53,9 @@ class MainWindow(BaseWindowClass):
                          for
                          sublist in row]
 
-            Button('=', callback_function=result_callback, width=165, height=50, user_data=self.history)
+            Button('=', callback_function=result_callback, width=dpg.get_item_width(primaryWindow), user_data=self.history)
             dpg.add_separator()
-            history_window = HistoryWindow('historyWindow', history=self.history, show=True, pos=[0,500], width=400 )
-
+            history_window = HistoryWindow('historyWindow', history=self.history, pos=[0,500], width=dpg.get_item_width(primaryWindow) )
 
     def __init__(self, name, history):
         super().__init__(name, history)
@@ -73,6 +72,9 @@ class HistoryWindow(BaseWindowClass):
         super().__init__(name, history)
         self.init_window(**args )
 
+    '''
+    method to filter history by input whenever something is typed in searchBar
+    '''
     def inputChangedCallback(self, sender, app_data):
         text = dpg.get_value('searchBar')
         displayData = []

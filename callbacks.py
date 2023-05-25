@@ -1,6 +1,8 @@
 import dearpygui.dearpygui as dpg
 import math
 from math import sin, cos, tan
+import re
+from functools import reduce
 
 # This file contains all the callback method used when clicking a button
 
@@ -10,7 +12,9 @@ result_calculated = False
 # calculates the value showed on the display when the "=" button is clicked
 def result_callback(sender, data, user_data):
     # defines new functions that are not supported by default
-    local_vars = {"abslt": lambda x: x if x >= 0 else -x, "pot": lambda x: x ** 2, "sqrt": lambda x: x ** 0.5}
+    local_vars = {"abslt": lambda x: x if x >= 0 else -x, "pot": lambda x: x ** 2, "sqrt": lambda x: x ** 0.5,
+                  "cos":lambda x: cos(x), "sin": lambda x:sin(x), "tan":lambda x: tan(x)
+                  }
     global_vars = {}
     current_value = dpg.get_value("Display")
     try:
@@ -43,12 +47,37 @@ def result_callback(sender, data, user_data):
 #         dpg.hide_item('historyWindow')
 
 # used in trigonometry, square root and power of two
+
+'''
+old
+'''
+# def advance_op_callback(sender, data):
+#     global result_calculated
+#     result_calculated = False
+#     trigonometry_function = dpg.get_item_label(sender)
+#     current_display_value = dpg.get_value("Display")
+    
+#     dpg.set_value("Display", str(trigonometry_function) + '(' + str(current_display_value) + ')')
+
+'''
+new, now we can type stuff like cos(0) + sin(0)
+'''
 def advance_op_callback(sender, data):
     global result_calculated
     result_calculated = False
     trigonometry_function = dpg.get_item_label(sender)
     current_display_value = dpg.get_value("Display")
-    dpg.set_value("Display", str(trigonometry_function) + '(' + str(current_display_value) + ')')
+    
+    pattern = r"([-+*/])"
+    where_to_add_trig = re.split(pattern, current_display_value )
+    print('where_to_add_trig', where_to_add_trig)
+
+    # dpg.set_value("Display", str(trigonometry_function) + '(' + str(current_display_value) + ')')
+
+    # oldInput = str.join(where_to_add_trig[:len(where_to_add_trig) - 1]) # 
+    oldInput = reduce( lambda x, y: x + y ,where_to_add_trig[:len(where_to_add_trig) - 1],"")
+    print('oldInput',oldInput)
+    dpg.set_value("Display", oldInput + str(trigonometry_function) + '(' + str(where_to_add_trig[-1]) + ')')
 
 def num_callback(sender, data):
     current_value = dpg.get_value("Display")
@@ -79,6 +108,7 @@ def operator_callback(sender, data):
 # reset the diplay to default value
 def clear_callback():
     dpg.set_value("Display", '0')
+
 
 
 # removes one character from the display
