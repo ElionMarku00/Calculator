@@ -56,11 +56,6 @@ class MainWindow(BaseWindowClass):
             dpg.add_separator()
             history_window = HistoryWindow('historyWindow', history=self.history, pos=[0,500], width=dpg.get_item_width(primaryWindow) )
 
-                #keypress handler 
-            # with dpg.handler_registry(tag='pressHandler') as keyPress:
-            #     dpg.add_key_press_handler(callback=type_text,)
-
-            # dpg.bind_item_handler_registry("Primary Window", "pressHandler")
 
     def __init__(self, name, history):
         super().__init__(name, history)
@@ -98,7 +93,6 @@ class HistoryWindow(BaseWindowClass):
             
             dpg.add_separator()
             
-            #    if len(hist._data) > 0:
             dpg.add_listbox(label="Operations", items=[str(x) for x in self.history._displayData], tag="List")
 
 def setup_UI():
