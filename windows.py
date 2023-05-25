@@ -9,7 +9,7 @@ from abc import ABC, abstractmethod
 # The list of main buttons to use plus the callback function if it is not the default one
 button_list = [[["tan", advance_op_callback], ["sin", advance_op_callback], ["cos", advance_op_callback], ["cot", advance_op_callback]],
                [['('], [')'], ['c', clear_callback], ['<--', backspace_callback]],
-               [['sqrt', advance_op_callback], ['pot', advance_op_callback], ['abslt', advance_op_callback],['%',operator_callback]],
+               [['sqrt', advance_op_callback], ['pot', advance_op_callback], ['abslt', advance_op_callback],['%',advance_op_callback]],
                [[7], [8], [9], ['/',operator_callback]],
                [[4], [5], [6], ["*", operator_callback]], [[1], [2], [3], ["-", operator_callback]],
                [["!", advance_op_callback], [0], ['.', operator_callback], ['+', operator_callback]]]

@@ -12,7 +12,8 @@ result_calculated = False
 def result_callback(sender, data, user_data):
     # defines new functions that are not supported by default
     local_vars = {"abslt": lambda x: x if x >= 0 else -x, "pot": lambda x: x ** 2, "sqrt": lambda x: x ** 0.5, 
-                  "factorial": lambda x: math.factorial(x), "cot": lambda x: 1 / tan(x), "%": lambda x: x / 100  
+                  "factorial": lambda x: math.factorial(x), "cot": lambda x: 1 / tan(x), "percent": lambda x: x / 100  
+
                   }
     global_vars = {}
     current_value = dpg.get_value("Display")
@@ -81,6 +82,9 @@ def advance_op_callback(sender, data):
     global result_calculated
     result_calculated = False
     trigonometry_function = dpg.get_item_label(sender) if dpg.get_item_label(sender) is not '!' else 'factorial'
+
+    if trigonometry_function == "!": trigonometry_function = 'factorial'
+    elif trigonometry_function == '%': trigonometry_function = "percent"
     current_display_value = dpg.get_value("Display")
     
     pattern = r"([-+*/])"
